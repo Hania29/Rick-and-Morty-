@@ -1,5 +1,6 @@
 package com.smartherd.rickandmorty
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -19,16 +20,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        adapter = CharacterAdapter(mutableListOf()) { character ->
+            val intent = Intent(this, CharacterDetailActivity::class.java)
+            intent.putExtra("CHARACTER_ID", character.id)
+            startActivity(intent)
+        }
 
-        adapter = CharacterAdapter(mutableListOf())
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
         viewModel.fetchCharacters()
-
 
         viewModel.characters.observe(this) { characters ->
             adapter.updateData(characters)
         }
     }
 }
+
