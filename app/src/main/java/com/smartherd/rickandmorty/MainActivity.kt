@@ -19,15 +19,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize RecyclerView
-        adapter = CharacterAdapter(mutableListOf()) // Start with an empty list
+
+        adapter = CharacterAdapter(mutableListOf())
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
-        // Fetch data
         viewModel.fetchCharacters()
 
-        // Observe LiveData and update adapter dynamically
+
         viewModel.characters.observe(this) { characters ->
             adapter.updateData(characters)
         }
